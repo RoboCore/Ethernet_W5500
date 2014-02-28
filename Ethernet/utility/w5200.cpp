@@ -9,12 +9,13 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <avr/interrupt.h>
-#include "w5100.h"
+#include "utility/w5100.h"
 
 #if defined(W5200_ETHERNET_SHIELD)
 // W5200 controller instance
 W5200Class W5100;
+
+#define SPI_CS 10
 
 #define TX_RX_MAX_BUF_SIZE 2048
 #define TX_BUF 0x1100
@@ -28,8 +29,18 @@ void W5200Class::init(void)
 {
   delay(300);
 
+#if defined(ARDUINO_ARCH_AVR)
   SPI.begin();
   initSS();
+#else
+  SPI.begin(SPI_CS);
+  // Set clock to 4Mhz (W5100 should support up to about 14Mhz)
+//  SPI.setClockDivider(SPI_CS, 21);
+//  SPI.setClockDivider(SPI_CS, 6); // 14 Mhz, ok  
+//  SPI.setClockDivider(SPI_CS, 3); // 28 Mhz, ok 
+  SPI.setClockDivider(SPI_CS, 2); // 42 Mhz, ok 
+  SPI.setDataMode(SPI_CS, SPI_MODE0);
+#endif
   
   writeMR(1<<RST);
   
@@ -101,7 +112,7 @@ void W5200Class::recv_data_processing(SOCKET s, uint8_t *data, uint16_t len, uin
 {
   uint16_t ptr;
   ptr = readSnRX_RD(s);
-  read_data(s, (uint8_t *)ptr, data, len);
+  read_data(s, ptr, data, len);
   if (!peek)
   {
     ptr += len;
@@ -109,13 +120,13 @@ void W5200Class::recv_data_processing(SOCKET s, uint8_t *data, uint16_t len, uin
   }
 }
 
-void W5200Class::read_data(SOCKET s, volatile uint8_t *src, volatile uint8_t *dst, uint16_t len)
+void W5200Class::read_data(SOCKET s, volatile uint16_t src, volatile uint8_t *dst, uint16_t len)
 {
   uint16_t size;
   uint16_t src_mask;
   uint16_t src_ptr;
 
-  src_mask = (uint16_t)src & RMASK;
+  src_mask = src & RMASK;
   src_ptr = RBASE[s] + src_mask;
 
   if( (src_mask + len) > RSIZE ) 
@@ -132,20 +143,29 @@ void W5200Class::read_data(SOCKET s, volatile uint8_t *src, volatile uint8_t *ds
 
 uint8_t W5200Class::write(uint16_t _addr, uint8_t _data)
 {
+#if defined(ARDUINO_ARCH_AVR)
   setSS();  
-  
   SPI.transfer(_addr >> 8);
   SPI.transfer(_addr & 0xFF);
   SPI.transfer(0x80);
   SPI.transfer(0x01); 
   SPI.transfer(_data);
   resetSS();
+#else
+  SPI.transfer(SPI_CS, _addr >> 8, SPI_CONTINUE);
+  SPI.transfer(SPI_CS, _addr & 0xFF, SPI_CONTINUE);
+  SPI.transfer(SPI_CS, 0x80, SPI_CONTINUE);
+  SPI.transfer(SPI_CS, 0x01, SPI_CONTINUE);
+  SPI.transfer(SPI_CS, _data);
+#endif
+  
   return 1;
 }
 
 uint16_t W5200Class::write(uint16_t _addr, const uint8_t *_buf, uint16_t _len)
 {
-	
+
+#if defined(ARDUINO_ARCH_AVR)
     setSS();
     SPI.transfer(_addr >> 8);
     SPI.transfer(_addr & 0xFF);
@@ -155,14 +175,29 @@ uint16_t W5200Class::write(uint16_t _addr, const uint8_t *_buf, uint16_t _len)
   for (uint16_t i=0; i<_len; i++)
   {
     SPI.transfer(_buf[i]);
-
   }
     resetSS();
+#else
+  SPI.transfer(SPI_CS, _addr >> 8, SPI_CONTINUE);
+  SPI.transfer(SPI_CS, _addr & 0xFF, SPI_CONTINUE);
+  SPI.transfer(SPI_CS, (0x80 | ((_len & 0x7F00) >> 8)), SPI_CONTINUE);
+  SPI.transfer(SPI_CS, _len & 0x00FF, SPI_CONTINUE);
+
+  for (uint16_t i=0; i<(_len-1); i++)
+  {
+	SPI.transfer(SPI_CS, _buf[i], SPI_CONTINUE);
+  }
+	SPI.transfer(SPI_CS, _buf[_len-1]);
+  
+#endif    
+    
   return _len;
 }
 
 uint8_t W5200Class::read(uint16_t _addr)
 {
+
+#if defined(ARDUINO_ARCH_AVR)
   setSS();  
   SPI.transfer(_addr >> 8);
   SPI.transfer(_addr & 0xFF);
@@ -170,11 +205,20 @@ uint8_t W5200Class::read(uint16_t _addr)
   SPI.transfer(0x01); 
   uint8_t _data = SPI.transfer(0);
   resetSS();
+#else
+  SPI.transfer(SPI_CS, _addr >> 8, SPI_CONTINUE);
+  SPI.transfer(SPI_CS, _addr & 0xFF, SPI_CONTINUE);
+  SPI.transfer(SPI_CS, 0x00, SPI_CONTINUE);
+  SPI.transfer(SPI_CS, 0x01, SPI_CONTINUE);
+  uint8_t _data = SPI.transfer(SPI_CS, 0);
+#endif  
   return _data;
 }
 
 uint16_t W5200Class::read(uint16_t _addr, uint8_t *_buf, uint16_t _len)
 {
+
+#if defined(ARDUINO_ARCH_AVR)
     setSS();
     SPI.transfer(_addr >> 8);
     SPI.transfer(_addr & 0xFF);
@@ -187,6 +231,18 @@ uint16_t W5200Class::read(uint16_t _addr, uint8_t *_buf, uint16_t _len)
 
   }
     resetSS();
+#else
+  SPI.transfer(SPI_CS, _addr >> 8, SPI_CONTINUE);
+  SPI.transfer(SPI_CS, _addr & 0xFF, SPI_CONTINUE);
+  SPI.transfer(SPI_CS, (0x00 | ((_len & 0x7F00) >> 8)), SPI_CONTINUE);
+  SPI.transfer(SPI_CS, _len & 0x00FF, SPI_CONTINUE);
+  for (uint16_t i=0; i<(_len-1); i++)
+  {
+    _buf[i] = SPI.transfer(SPI_CS, 0, SPI_CONTINUE);
+  }
+    _buf[_len-1] = SPI.transfer(SPI_CS, 0);
+  
+#endif    
   return _len;
 }
 

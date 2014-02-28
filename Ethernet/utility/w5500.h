@@ -10,14 +10,7 @@
 #ifndef	W5500_H_INCLUDED
 #define	W5500_H_INCLUDED
 
-//#include <avr/pgmspace.h>
-//#include <SPI.h>
-
-
 #define MAX_SOCK_NUM 8
-//typedef uint8_t SOCKET;
-
-
 /*
 class MR {
 public:
@@ -135,7 +128,7 @@ public:
    * the data from Receive buffer. Here also take care of the condition while it exceed
    * the Rx memory uper-bound of socket.
    */
-  void read_data(SOCKET s, volatile uint8_t * src, volatile uint8_t * dst, uint16_t len);
+  void read_data(SOCKET s, volatile uint16_t  src, volatile uint8_t * dst, uint16_t len);
   
   /**
    * @brief	 This function is being called by send() and sendto() function also. 
@@ -329,12 +322,8 @@ private:
   static const uint16_t RSIZE = 2048; // Max Rx buffer size
 
 private:
-#if defined(REL_GR_KURUMI) || defined(REL_GR_KURUMI_PROTOTYPE)
-  inline static void initSS()    { pinMode(SS, OUTPUT); \
-                                   digitalWrite(SS, HIGH); };
-  inline static void setSS()     { digitalWrite(SS, LOW); };
-  inline static void resetSS()   { digitalWrite(SS, HIGH); };
-#elif defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__)
+#if defined(ARDUINO_ARCH_AVR)
+#if defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__)
   inline static void initSS()    { DDRB  |=  _BV(4); };
   inline static void setSS()     { PORTB &= ~_BV(4); };
   inline static void resetSS()   { PORTB |=  _BV(4); };
@@ -346,12 +335,17 @@ private:
   inline static void initSS()    { DDRB  |=  _BV(0); };
   inline static void setSS()     { PORTB &= ~_BV(0); };
   inline static void resetSS()   { PORTB |=  _BV(0); }; 
+#elif defined(REL_GR_KURUMI) || defined(REL_GR_KURUMI_PROTOTYPE)
+  inline static void initSS()    { pinMode(SS, OUTPUT); \
+                                   digitalWrite(SS, HIGH); };
+  inline static void setSS()     { digitalWrite(SS, LOW); };
+  inline static void resetSS()   { digitalWrite(SS, HIGH); };
 #else
   inline static void initSS()    { DDRB  |=  _BV(2); };
   inline static void setSS()     { PORTB &= ~_BV(2); };
   inline static void resetSS()   { PORTB |=  _BV(2); };
 #endif
-
+#endif // ARDUINO_ARCH_AVR
 };
 
 extern W5500Class W5100;

@@ -132,7 +132,7 @@ public:
    * the data from Receive buffer. Here also take care of the condition while it exceed
    * the Rx memory uper-bound of socket.
    */
-  void read_data(SOCKET s, volatile uint8_t * src, volatile uint8_t * dst, uint16_t len);
+  void read_data(SOCKET s, volatile uint16_t src, volatile uint8_t * dst, uint16_t len);
   
   /**
    * @brief	 This function is being called by send() and sendto() function also. 
@@ -313,6 +313,7 @@ private:
   uint16_t RBASE[SOCKETS]; // Rx buffer base address
 
 private:
+#if defined(ARDUINO_ARCH_AVR)
 #if defined(REL_GR_KURUMI) || defined(REL_GR_KURUMI_PROTOTYPE)
   inline static void initSS()    { pinMode(SS, OUTPUT); \
                                    digitalWrite(SS, HIGH); };
@@ -335,7 +336,7 @@ private:
   inline static void setSS()     { PORTB &= ~_BV(2); };
   inline static void resetSS()   { PORTB |=  _BV(2); };
 #endif
-
+#endif // ARDUINO_ARCH_AVR
 };
 
 extern W5200Class W5100;

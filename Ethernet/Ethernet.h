@@ -6,7 +6,7 @@
 #define ethernet_h
 
 #include <inttypes.h>
-#include "./utility/w5100.h"
+#include "utility/w5100.h"
 #include "IPAddress.h"
 #include "EthernetClient.h"
 #include "EthernetServer.h"

@@ -1,6 +1,6 @@
 WIZ Ethernet Library
 ========
-WIZ Ethernet library is made for various Opena Source Hardware Platform and support WIZnet's W5100, W5200 and W5500 chip. The Ethernet library lets you connect to the Internet or a local network
+WIZ Ethernet library is made for various Open Source Hardware Platform and support WIZnet's W5100, W5200 and W5500 chip. The Ethernet library lets you connect to the Internet or a local network
 
 ## Supported devices
 * ioShield, WIZ550io (using W5500)
@@ -13,16 +13,16 @@ WIZ Ethernet library is made for various Opena Source Hardware Platform and supp
 * [Ethernet Shield](http://arduino.cc/en/Main/ArduinoEthernetShield "Ethernet Shield")  
 
 ## Software
-#### Install WIZ Ethernet library  
+#### 1. Install WIZ Ethernet library  
 ##### Arduino IDE 1.0.x
 
 Download all files and overwrite onto the "\libraries\Ethernet" folder in your project in sketch.
 
 ##### Arduino IDE 1.5.x
 
-Download all files and 1) overwrite the souce and utility folder to the "\libraries\Ethernet\examples\" folder. 
+Download all files and overwrite the souce and utility folder to the "\libraries\Ethernet\examples\" folder. 
 
-#### Select device(shield)  
+#### 2. Select device: W5100, W5200 or W5500  
 In the W5100.h file(\libraries\Ethernet\utility\w5100.h), uncomment the device(shield) you want to use.  
 
 ```cpp
@@ -54,3 +54,4 @@ After that, you can check if it is work well. For example, if you choose 'WebSer
 * Initial Release : 14 August 2013
 * Adding function to read / write W5500 PHY configuration register : 4 December 2013
 * Support the Arduino Due (Arduino IDE 1.5.x). Now it support 42Mhz SPI clock ! (by Jinbuhm Kim): 28 Feb. 2014
+* Separate the folder for Arduino IDE 1.0.x & Arduino IDE 1.5.x

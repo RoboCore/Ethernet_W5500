@@ -329,7 +329,7 @@ private:
                                    digitalWrite(SS, HIGH); };
   inline static void setSS()     { digitalWrite(SS, LOW); };
   inline static void resetSS()   { digitalWrite(SS, HIGH); };
-#elif defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__)
+#elif defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__) || defined(__AVR_ATmega1284P__)
   inline static void initSS()    { DDRB  |=  _BV(4); };
   inline static void setSS()     { PORTB &= ~_BV(4); };
   inline static void resetSS()   { PORTB |=  _BV(4); };

@@ -20,7 +20,7 @@ Download all files and overwrite onto the "\libraries\Ethernet" folder in your p
 
 ##### Arduino IDE 1.5.x
 
-Download all files and overwrite the souce and utility folder to the "\libraries\Ethernet\examples\" folder. 
+Download all files and replace the "\libraries\Ethernet\src" folder in your Arduino IDE. This will update the "utility" folder also under "\libraries\Ethernet\src".
 
 #### 2. Select device: W5100, W5200 or W5500  
 In the W5100.h file(\libraries\Ethernet\utility\w5100.h), uncomment the device(shield) you want to use.  

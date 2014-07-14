@@ -164,7 +164,9 @@ uint8_t W5200Class::write(uint16_t _addr, uint8_t _data)
 
 uint16_t W5200Class::write(uint16_t _addr, const uint8_t *_buf, uint16_t _len)
 {
-
+    if (_len == 0) //Fix: a write request with _len == 0 hangs the W5200
+        return 0;
+        
 #if defined(ARDUINO_ARCH_AVR)
     setSS();
     SPI.transfer(_addr >> 8);

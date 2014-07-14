@@ -20,7 +20,7 @@ W5500Class W5100;
 
 void W5500Class::init(void)
 {
-    delay(300);
+    delay(1000);
 
 #if defined(ARDUINO_ARCH_AVR)
     initSS();
@@ -100,7 +100,7 @@ void W5500Class::recv_data_processing(SOCKET s, uint8_t *data, uint16_t len, uin
 void W5500Class::read_data(SOCKET s, volatile uint16_t src, volatile uint8_t *dst, uint16_t len)
 {
     uint8_t cntl_byte = (0x18+(s<<5));
-    read(src , cntl_byte, (uint8_t *)dst, len);
+    read((uint16_t)src , cntl_byte, (uint8_t *)dst, len);
 }
 
 uint8_t W5500Class::write(uint16_t _addr, uint8_t _cb, uint8_t _data)
@@ -133,14 +133,14 @@ uint16_t W5500Class::write(uint16_t _addr, uint8_t _cb, const uint8_t *_buf, uin
     }
     resetSS();
 #else
+  uint16_t i;
   SPI.transfer(SPI_CS, _addr >> 8, SPI_CONTINUE);
   SPI.transfer(SPI_CS, _addr & 0xFF, SPI_CONTINUE);
   SPI.transfer(SPI_CS, _cb, SPI_CONTINUE);
-  for (uint16_t i=0; i<(_len-1); i++)
-  {
+    for (i=0; i<_len-1; i++){
 	SPI.transfer(SPI_CS, _buf[i], SPI_CONTINUE);
   }
-	SPI.transfer(SPI_CS, _buf[_len-1]);
+	SPI.transfer(SPI_CS, _buf[i]);
 
 #endif    
     return _len;
@@ -176,11 +176,11 @@ uint16_t W5500Class::read(uint16_t _addr, uint8_t _cb, uint8_t *_buf, uint16_t _
     }
     resetSS();
 #else
+  uint16_t i;
     SPI.transfer(SPI_CS, _addr >> 8, SPI_CONTINUE);
     SPI.transfer(SPI_CS, _addr & 0xFF, SPI_CONTINUE);
     SPI.transfer(SPI_CS, _cb, SPI_CONTINUE);
-  for (uint16_t i=0; i<(_len-1); i++)
-  {
+  for (i=0; i<_len-1; i++){
     _buf[i] = SPI.transfer(SPI_CS, 0, SPI_CONTINUE);
   }
     _buf[_len-1] = SPI.transfer(SPI_CS, 0);

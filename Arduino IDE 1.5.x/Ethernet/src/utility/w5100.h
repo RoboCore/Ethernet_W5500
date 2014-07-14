@@ -20,11 +20,11 @@ typedef uint8_t SOCKET;
 
 #if defined(W5500_ETHERNET_SHIELD)
 //#define WIZ550io_WITH_MACADDRESS // Use assigned MAC address of WIZ550io
-#include "w5500.h"
+#include "utility/w5500.h"
 #endif
 
 #if defined(W5200_ETHERNET_SHIELD)
-#include "w5200.h"
+#include "utility/w5200.h"
 #endif
 
 #if defined(W5100_ETHERNET_SHIELD)

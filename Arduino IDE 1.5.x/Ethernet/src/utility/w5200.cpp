@@ -9,6 +9,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include "utility/w5100.h"
 
 #if defined(W5200_ETHERNET_SHIELD)
 // W5200 controller instance

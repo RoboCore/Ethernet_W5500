@@ -22,6 +22,8 @@ public:
   static uint8_t _state[MAX_SOCK_NUM];
   static uint16_t _server_port[MAX_SOCK_NUM];
 
+  EthernetClass() : _dhcp(NULL) { }
+
 #if defined(WIZ550io_WITH_MACADDRESS)
   // Initialize function when use the ioShield serise (included WIZ550io)
   // WIZ550io has a MAC address which is written after reset.

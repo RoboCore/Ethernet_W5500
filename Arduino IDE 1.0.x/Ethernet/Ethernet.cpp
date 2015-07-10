@@ -11,7 +11,8 @@ uint16_t EthernetClass::_server_port[MAX_SOCK_NUM] = { 0, };
 
 int EthernetClass::begin(uint8_t *mac_address)
 {
-  _dhcp = new DhcpClass();
+  if(_dhcp == NULL)
+    _dhcp = new DhcpClass();
 
   // Initialise the basic info
   W5100.init();

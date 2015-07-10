@@ -55,3 +55,10 @@ After that, you can check if it is work well. For example, if you choose 'WebSer
 * Adding function to read / write W5500 PHY configuration register : 4 December 2013
 * Support the Arduino Due (Arduino IDE 1.5.x). Now it support 42Mhz SPI clock ! (by Jinbuhm Kim): 28 Feb. 2014
 * Separate the folder for Arduino IDE 1.0.x & Arduino IDE 1.5.x
+
+------------------------------------------------------------------------------------------
+
+### updated by Robocore
+	* 10/07/15
+		- fixed memory leak in Ethernet.begin() (for multiple calls);
+

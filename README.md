@@ -61,4 +61,7 @@ After that, you can check if it is work well. For example, if you choose 'WebSer
 ### updated by Robocore
 	* 10/07/15
 		- fixed memory leak in Ethernet.begin() (for multiple calls);
+	* 17/07/15
+		- renamed to Ethernet_v2 (to avoid conflict with standard Ethernet library);
+		- added library for IDE 1.6.5 (library folder has the same structure as 1.0.x but the files from 1.5.x must be used because of)
 

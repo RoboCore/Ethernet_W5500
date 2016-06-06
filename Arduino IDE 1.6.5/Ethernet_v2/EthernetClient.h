@@ -24,6 +24,7 @@ public:
   virtual void stop();
   virtual uint8_t connected();
   virtual operator bool();
+  void getRemoteIP(uint8_t *remoteIP);
   virtual bool operator==(const EthernetClient&);
   virtual bool operator!=(const EthernetClient& rhs) { return !this->operator==(rhs); };
 

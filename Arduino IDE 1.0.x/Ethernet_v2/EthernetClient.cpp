@@ -163,3 +163,10 @@ uint8_t EthernetClient::status() {
 EthernetClient::operator bool() {
   return _sock != MAX_SOCK_NUM;
 }
+
+// get the destination or remote IP
+void EthernetClient::getRemoteIP(uint8_t *remoteIP){
+  W5100.readSnDIPR(_sock, remoteIP);
+}
+
+

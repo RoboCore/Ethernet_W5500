@@ -58,7 +58,15 @@ void loop() {
   // listen for incoming clients
   EthernetClient client = server.available();
   if (client) {
-    Serial.println("new client");
+    Serial.print("new client: ");
+    byte remote_ip[4];
+    client.getRemoteIP(remote_ip);
+    for(int i=0 ; i < 3 ; i++){
+      Serial.print(remote_ip[i]);
+      Serial.print('.');
+    }
+    Serial.println(remote_ip[3]);
+    
     // an http request ends with a blank line
     boolean currentLineIsBlank = true;
     while (client.connected()) {

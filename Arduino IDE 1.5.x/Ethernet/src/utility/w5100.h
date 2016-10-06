@@ -336,7 +336,7 @@ private:
   uint16_t RBASE[SOCKETS]; // Rx buffer base address
 
 private:
-#if defined(ARDUINO_ARCH_AVR)
+#if defined(ARDUINO_ARCH_AVR) || defined(ESP8266) 
 #if defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__) || defined(__AVR_ATmega1284P__)
   inline static void initSS()    { DDRB  |=  _BV(4); };
   inline static void setSS()     { PORTB &= ~_BV(4); };
@@ -354,11 +354,17 @@ private:
                                    digitalWrite(SS, HIGH); };
   inline static void setSS()     { digitalWrite(SS, LOW); };
   inline static void resetSS()   { digitalWrite(SS, HIGH); };
+#elif defined(ESP8266)
+  inline static void initSS()    { pinMode(SS, OUTPUT); };
+  inline static void setSS()     { GPOC = digitalPinToBitMask(SS); };
+  inline static void resetSS()   { GPOS = digitalPinToBitMask(SS); };  
 #else
   inline static void initSS()    { DDRB  |=  _BV(2); };
   inline static void setSS()     { PORTB &= ~_BV(2); };
   inline static void resetSS()   { PORTB |=  _BV(2); };
 #endif
+
+
 #endif // ARDUINO_ARCH_AVR
 };
 

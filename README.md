@@ -37,7 +37,7 @@ typedef uint8_t SOCKET;
 //#define W5200_ETHERNET_SHIELD
 #define W5500_ETHERNET_SHIELD
 ```
-By default, "WIZ550io_WITH_MACADDRESS" is commented and if you uncommnet it, you can use the MAC address stored in the WIZ550io.
+By default, "WIZ550io_WITH_MACADDRESS" is commented and if you uncomment it, you can use the MAC address stored in the WIZ550io.
 
 ```cpp
 #if defined(W5500_ETHERNET_SHIELD)

@@ -22,7 +22,7 @@ void W5500Class::init(void)
 {
     delay(1000);
 
-#if defined(ARDUINO_ARCH_AVR)
+#if defined(ARDUINO_ARCH_AVR) || defined(ESP8266) 
     initSS();
     SPI.begin();
 #else
@@ -105,7 +105,7 @@ void W5500Class::read_data(SOCKET s, volatile uint16_t src, volatile uint8_t *ds
 
 uint8_t W5500Class::write(uint16_t _addr, uint8_t _cb, uint8_t _data)
 {
-#if defined(ARDUINO_ARCH_AVR)
+#if defined(ARDUINO_ARCH_AVR) || defined(ESP8266) 
     setSS();  
     SPI.transfer(_addr >> 8);
     SPI.transfer(_addr & 0xFF);
@@ -123,7 +123,7 @@ uint8_t W5500Class::write(uint16_t _addr, uint8_t _cb, uint8_t _data)
 
 uint16_t W5500Class::write(uint16_t _addr, uint8_t _cb, const uint8_t *_buf, uint16_t _len)
 {
-#if defined(ARDUINO_ARCH_AVR)
+#if defined(ARDUINO_ARCH_AVR) || defined(ESP8266) 
     setSS();
     SPI.transfer(_addr >> 8);
     SPI.transfer(_addr & 0xFF);
@@ -148,7 +148,7 @@ uint16_t W5500Class::write(uint16_t _addr, uint8_t _cb, const uint8_t *_buf, uin
 
 uint8_t W5500Class::read(uint16_t _addr, uint8_t _cb)
 {
-#if defined(ARDUINO_ARCH_AVR)
+#if defined(ARDUINO_ARCH_AVR) || defined(ESP8266) 
     setSS();
     SPI.transfer(_addr >> 8);
     SPI.transfer(_addr & 0xFF);
@@ -166,8 +166,8 @@ uint8_t W5500Class::read(uint16_t _addr, uint8_t _cb)
 
 uint16_t W5500Class::read(uint16_t _addr, uint8_t _cb, uint8_t *_buf, uint16_t _len)
 { 
-#if defined(ARDUINO_ARCH_AVR)
-    setSS();
+#if defined(ARDUINO_ARCH_AVR) || defined(ESP8266) 
+    setSS(); 
     SPI.transfer(_addr >> 8);
     SPI.transfer(_addr & 0xFF);
     SPI.transfer(_cb);

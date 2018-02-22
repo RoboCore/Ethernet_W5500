@@ -1,21 +1,21 @@
-WIZ Ethernet Library
+Ethernet W5500 Library
 ========
-WIZ Ethernet library is made for various Open Source Hardware Platform and support WIZnet's W5100, W5200 and W5500 chip. The Ethernet library lets you connect to the Internet or a local network.
-
-_**Due to the release of the [Ethernet W5500 shield](https://www.robocore.net/loja/produtos/arduino-shield-ethernet-w5500.html "Ethernet W5500 Shield") by RoboCore, this library is no longer maintained. Please refer to the [Ethernet W5500 library](https://github.com/RoboCore/Ethernet_W5500 "Ethernet W5500 library") page for the current library.**_
+Ethernet W5500 library is made for various Open Source Hardware Platform and support WIZnet's W5100, W5200 and W5500 chip. The Ethernet library lets you connect to the Internet or a local network.
 
 ## Supported devices
+* RoboCore Ethernet W5500 Shield (using W5500)
 * ioShield, WIZ550io (using W5500)
 * W5200 Ethernet Shield, WIZ820io (using W5200)
 * Arduino Ethernet Shield (using W5100)
 
 ## Hardware
+* [Ethernet W5500 Shield](https://www.robocore.net/loja/produtos/arduino-shield-ethernet-w5500.html "Ethernet W5500 Shield")
 * [ioShield](http://wizwiki.net/wiki/doku.php?id=ioshield "ioShield")
 * [W5200 Ethernet Shield](https://github.com/Wiznet/W5200-Ethernet-Shield "W5200 Ethernet Shield")
 * [Ethernet Shield](http://arduino.cc/en/Main/ArduinoEthernetShield "Ethernet Shield")
 
 ## Software
-#### 1. Install WIZ Ethernet library
+#### 1. Install Ethernet W5500 library
 ##### Arduino IDE 1.0.x
 
 Download all files and overwrite onto the "\libraries\Ethernet" folder in your project in sketch.
@@ -25,7 +25,7 @@ Download all files and overwrite onto the "\libraries\Ethernet" folder in your p
 Download all files and replace the "\libraries\Ethernet\src" folder in your Arduino IDE. This will update the "utility" folder also under "\libraries\Ethernet\src".
 
 #### 2. Select device: W5100, W5200 or W5500
-In the W5100.h file(\libraries\Ethernet\utility\w5100.h), uncomment the device(shield) you want to use.
+In the W5100.h file (\libraries\Ethernet\utility\w5100.h), uncomment the device(shield) you want to use.
 
 ```cpp
 #ifndef	W5100_H_INCLUDED
@@ -54,7 +54,7 @@ After that, you can check if it is work well. For example, if you choose 'WebSer
 
 ## Revision History
 
-#### Wiznet
+#### [Wiznet](https://github.com/Wiznet/WIZ_Ethernet_Library "WIZ Ethernet Library");
 * Initial Release : 14 August 2013
 * Adding function to read / write W5500 PHY configuration register : 4 December 2013
 * Support the Arduino Due (Arduino IDE 1.5.x). Now it support 42Mhz SPI clock ! (by Jinbuhm Kim): 28 Feb. 2014
@@ -62,7 +62,7 @@ After that, you can check if it is work well. For example, if you choose 'WebSer
 
 #### Robocore
 * 10/07/15
-  * Forked from [Wiznet](https://github.com/Wiznet/WIZ_Ethernet_Library "WIZ Ethernet Library");
+  * Forked from Wiznet;
   * Fixed memory leak in Ethernet.begin() (for multiple calls);
 * 17/07/15
   * Renamed to Ethernet_v2 (to avoid conflict with standard Ethernet library);
@@ -70,4 +70,6 @@ After that, you can check if it is work well. For example, if you choose 'WebSer
 * 27/11/15
   * Fixed bug in DNS library that wouldn't recognize correct DNS;
   * Added getRemoteIP() method to the EthernetClient class.
+* 22/02/18
+  * Renamed to Ethernet_W5500 (to avoid conflict with standard Ethernet library);
 

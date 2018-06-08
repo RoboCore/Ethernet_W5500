@@ -29,7 +29,7 @@
 #include "utility/w5100.h"
 #include "utility/socket.h"
 #include "Ethernet_W5500.h"
-#include "UDP.h"
+#include "Udp.h"
 #include "DNS.h"
 
 /* Constructor */

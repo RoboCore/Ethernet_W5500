@@ -54,7 +54,7 @@ After that, you can check if it is work well. For example, if you choose 'WebSer
 
 ## Revision History
 
-#### [Wiznet](https://github.com/Wiznet/WIZ_Ethernet_Library "WIZ Ethernet Library");
+#### [Wiznet](https://github.com/Wiznet/WIZ_Ethernet_Library "WIZ Ethernet Library")
 * Initial Release : 14 August 2013
 * Adding function to read / write W5500 PHY configuration register : 4 December 2013
 * Support the Arduino Due (Arduino IDE 1.5.x). Now it support 42Mhz SPI clock ! (by Jinbuhm Kim): 28 Feb. 2014
@@ -71,5 +71,5 @@ After that, you can check if it is work well. For example, if you choose 'WebSer
   * Fixed bug in DNS library that wouldn't recognize correct DNS;
   * Added getRemoteIP() method to the EthernetClient class.
 * 22/02/18
-  * Renamed to Ethernet_W5500 (to avoid conflict with standard Ethernet library);
+  * Renamed to Ethernet_W5500 (to avoid conflict with the standard Ethernet library);
 
